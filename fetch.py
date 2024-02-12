@@ -133,7 +133,8 @@ jsons = []
 for i in range(len(texts)):
 	json = None
 	try:
-		json = loads(texts[i])
+		if texts[i] != None:
+			json = loads(texts[i])
 	except Exception as e:
 		print("Couldn't interpret JSON data from", args.url[i], ': ', e)
 	finally:
@@ -141,7 +142,9 @@ for i in range(len(texts)):
 
 ok = False
 for i in range(len(jsons)):
-	if jsons[i] == None or not 'time_tag' in jsons[i][0]:
+	if jsons[i] == None:
+		print('No JSON data from', args.url[i])
+	elif not 'time_tag' in jsons[i][0]:
 		print('No time tag in first item from', args.url[i], ':  ', jsons[i][0])
 	else:
 		ok = True
