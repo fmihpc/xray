@@ -33,13 +33,13 @@ import os
 
 try:
 	import psycopg2
-except:
-	print("Couldn't import psycopg2, try pip3 install --user psycopg2")
+except Exception as e:
+	print("Couldn't import psycopg2, try pip3 install --user psycopg2:", e)
 	exit(1)
 try:
 	import requests
-except:
-	print("Couldn't import requests, try pip3 install --user requests")
+except Exception as e:
+	print("Couldn't import requests, try pip3 install --user requests:", e)
 	exit(1)
 
 parser = argparse.ArgumentParser(
