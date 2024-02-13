@@ -168,7 +168,7 @@ for json in jsons:
 cursor = connection.cursor()
 
 # possibly create db
-cursor.execute('create table if not exists ' + args.table + ' (datetime varchar, satellite int, energy varchar, corrected_flux real, observed_flux real, electron_correction real)')
+cursor.execute('create table if not exists ' + args.table + ' (datetime varchar, satellite int, energy varchar, corrected_flux real, observed_flux real, electron_correction real, primary key (datetime, satellite, energy))')
 connection.commit()
 
 # TODO: make sure that correct columns exist
@@ -200,7 +200,7 @@ except Exception as e:
 
 inserted = 0
 for d in new_data:
-	cursor.execute('insert into ' + args.table + ' (datetime, satellite, energy, corrected_flux, observed_flux, electron_correction) values (%s, %s, %s, %s, %s, %s) on conflict do nothing', (d['time_tag'], d['satellite'], d['energy'], d['corrected_flux'], d['observed_flux'], d['electron_correction']))
+	cursor.execute('insert into ' + args.table + ' (datetime, satellite, energy, corrected_flux, observed_flux, electron_correction) values (%s, %s, %s, %s, %s, %s) on conflict (datetime, satellite, energy) do nothing', (d['time_tag'], d['satellite'], d['energy'], d['corrected_flux'], d['observed_flux'], d['electron_correction']))
 	inserted += 1
 connection.commit()
 cursor.close()
